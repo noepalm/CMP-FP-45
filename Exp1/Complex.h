@@ -8,6 +8,8 @@ class Complex {
  private:
   double re_;
   double im_;
+  double r_;
+  double phi_;
   
   // constructor (by components)
   Complex(double x1, double x2);
@@ -25,24 +27,37 @@ class Complex {
   // getters
   double re() const {return re_;}
   double im() const {return im_;}
-
-  double r() const;
-  double phi() const;
+  double r() const {return r_;};
+  double phi() const {return phi_;};
   
   // setters
   void setRe(double re) {re_ = re;}
   void setIm(double im) {im_ = im;}
+  void setR(double r) {r_ = r;}
+  void setPhi(double phi) {phi_ = phi;}
 
   // overloaded operators
   Complex operator+(const Complex& complex) const;
   Complex operator-(const Complex& complex) const;
   Complex operator*(const Complex& complex) const;
   Complex operator/(const Complex& complex) const;
+
   Complex operator+(const double& rhs) const;
   Complex operator-(const double& rhs) const;
   Complex operator*(const double& rhs) const;
   Complex operator/(const double& rhs) const;
+
+  Complex operator=(const Complex& rhs);
+  Complex operator+=(const Complex& rhs);
+  Complex operator-=(const Complex& rhs);
+  Complex operator*=(const Complex& rhs);
+  Complex operator/=(const Complex& rhs);
   
+  Complex operator=(const double& rhs);
+  Complex operator+=(const double& rhs);
+  Complex operator-=(const double& rhs);
+  Complex operator*=(const double& rhs);
+  Complex operator/=(const double& rhs);
 
   // global overloads
   friend ostream& operator<< (ostream& os, const Complex& rhs);

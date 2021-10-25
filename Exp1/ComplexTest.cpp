@@ -20,6 +20,16 @@ int main(){
 
   cout << "z4 = " << z4 << endl;
   cout << "magn(z4) = " << z4.r() << endl;
+
+  Complex z5 = Complex::Cartesian(1,1);
+  cout << "z5 = " << z5 << endl;
+  z5 /= Complex::Cartesian(1,1);
+  cout << "z5 /= (1 + 1i) \t-> z5 = " << z5 << endl;
+  z5 += Complex::Cartesian(1,1);
+  cout << "z5 += (1 + 1i) \t-> z5 = " << z5 << endl;
+  z5 -= 1;
+  cout << "z5 -= 1 \t-> z5 = " << z5 << endl;
+  
   
   return 0;
 }
