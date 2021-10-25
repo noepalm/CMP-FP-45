@@ -71,12 +71,25 @@ double Vector::phi(){
 
   return Phi;
 }
-//Methods
 
+/*** METHODS ***/
 
-//double mag(Vector& vector){
-//return sqrt(pow(Vector::vector.x,2)+pow(Vector::vector.y,2)+pow(Vector::vector.z,2));
-//}
+double Vector::mag(){
+  return this->r();
+}
+
+double Vector::scalarProduct(const Vector& vector1, const Vector& vector2){
+  return vector1.x_*vector2.x_+vector1.y_*vector2.y_+vector1.z_*vector2.z_;
+}
+double Vector::angle( Vector& vector1, Vector& vector2){
+  return acos(scalarProduct(vector1,vector2)/(vector1.r()*vector2.r()));
+}
+
+// vector product
+// (calculated as (y1*z2 - z1*y2, z1*x2 - x1*z2, x1*y2 - y1*x2))
+Vector Vector::vectorProduct(Vector v1, Vector v2){
+  return Vector::Cartesian(v1.y_*v2.z_ - v1.z_*v2.y_, v1.z_*v2.x_ - v1.x_*v2.z_, v1.x_*v2.y_ - v1.y_*v2.x_);
+}
 
 //setters
 void Vector::setX(double x){
@@ -89,5 +102,33 @@ void Vector::setZ(double z){
   z_=z;
 }
 
-			  
+/*** OVERLOADED OPERATORS ***/
+Vector Vector::operator+(Vector rhs) const{
+  return Vector::Cartesian(x_ + rhs.x_, y_ + rhs.y_, z_ + rhs.z_);
+}
 
+Vector Vector::operator-(Vector rhs) const{
+  return Vector::Cartesian(x_ - rhs.x_, y_ - rhs.y_, z_ - rhs.z_);
+}
+
+Vector Vector::operator*(const float& rhs)const{
+  return Vector::Cartesian(x_*rhs,y_*rhs,z_*rhs);
+}
+Vector Vector::operator/(const float& rhs)const{
+  return Vector::Cartesian(x_/rhs,y_/rhs,z_/rhs);
+}
+			  
+Vector Vector::operator=(Vector rhs){
+  x_ = rhs.x_;
+  y_ = rhs.y_;
+  z_ = rhs.z_;
+
+  return *this;
+}
+
+/*** GLOBAL OVERLOAD ***/
+
+ostream& operator<<(ostream& os, const Vector& v){
+  os << "(" << v.x_ << ", " << v.y_ << ", " << v.z_ << ")";
+  return os;
+}
