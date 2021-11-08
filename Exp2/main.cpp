@@ -5,8 +5,6 @@
 #include <iostream>
 #include <cmath>
 
-#include "TwoBodyDecay.h"
-
 #include "TLorentzVector.h"
 #include "TMath.h"
 #include "TRandom3.h"
@@ -15,6 +13,8 @@
 #include <TString.h>
 #include <TH1F.h>
 #include <TCanvas.h>
+
+#include "TwoBodyDecay.h"
 
 //Let's define mass and momentum of the particles [MeV]
 #define M_B 5279
@@ -33,19 +33,11 @@ int main(){
     Kaon.SetPxPyPzE(0,0,0, M_K);
     
     TwoBodyDecay *event= new TwoBodyDecay(Meson, Pion, Kaon);
-
-    TString rootfname("./data.root");
-    TFile* ofile = new TFile(rootfname, "RECREATE");
-
-    TRandom3* gen = new TRandom3();
-    gen->SetSeed(0);
-
-    if( !ofile->IsOpen() ) {
-        std::cout << "problems creating root file. existing... " << std::endl;
-        exit(-1);
-    }
-
-    ofile->Close();
+    
+    
+    cout << "Starting invariant mass = " << (Pion+Kaon).M() << endl;
+    event->StartDecay();
+    cout << "Invariant mass of K and pi = " << (Pion+Kaon).M() << endl;
 
     delete event;
 
