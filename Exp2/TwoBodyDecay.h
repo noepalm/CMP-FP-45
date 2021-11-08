@@ -12,14 +12,12 @@
 class TwoBodyDecay{
 
     private:
-        Particle* Mother_;
-        Particle* son1_;
-        Particle* son2_;
-
+        TLorentzVector *Mother_, *son1_, *son2_;
+        
     public:
         //Constructors and Deconstructors
         TwoBodyDecay();
-        TwoBodyDecay(Particle& Mother,Particle& son1, Particle& son2);
+        TwoBodyDecay(TLorentzVector& Mother, TLorentzVector& son1, TLorentzVector& son2);
 
         //Deconstructor
         ~TwoBodyDecay();
@@ -29,10 +27,8 @@ class TwoBodyDecay{
         double genPhi(); //restituisce un angolo phi in gradi
 
         // calcolo l'impulso
-        double pStar_1(){return sqrt(pow(Mother_->mass()*Mother_->mass()+son1_->mass()*son1_->mass()-son2_->mass()*son2_->mass(),2)-4*son1_->mass()*son1_->mass()*Mother_->mass()*Mother_->mass())/(2*Mother_->mass());};
-        double pStar_2(){return sqrt(pow(Mother_->mass()*Mother_->mass()+son2_->mass()*son2_->mass()-son1_->mass()*son1_->mass(),2)-4*son2_->mass()*son2_->mass()*Mother_->mass()*Mother_->mass())/(2*Mother_->mass());};
-        void StartDecay(Particle& mother,Particle& son1,Particle& son2);
-    
+        double pStar(){return sqrt(pow(Mother_->M()*Mother_->M() + son1_->M()*son1_->M() - son2_->M()*son2_->M(),2) - 4*son1_->M()*son1_->M()*Mother_->M()*Mother_->M())/(2*Mother_->M());};
+        void StartDecay();
 };
 
 #endif /* TwoBodyDecay_h */

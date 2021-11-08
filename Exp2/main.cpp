@@ -3,12 +3,18 @@
 
 #include <stdio.h>
 #include <iostream>
+#include <cmath>
+
+#include "TwoBodyDecay.h"
+
 #include "TLorentzVector.h"
 #include "TMath.h"
 #include "TRandom3.h"
-#include <cmath>
-#include "Particle.h"
-#include "TwoBodyDecay.h"
+#include <TFile.h>
+#include <TTree.h>
+#include <TString.h>
+#include <TH1F.h>
+#include <TCanvas.h>
 
 //Let's define mass and momentum of the particles [MeV]
 #define M_B 5279
@@ -21,24 +27,27 @@ using namespace std;
 
 int main(){
     
-    Particle *Meson = new Particle("B",M_B,P_B,0,0);
-    Particle *Pion = new Particle("π",M_PION,0,0,0);
-    Particle *Kaon = new Particle("k",M_K,0,0,0);
+    TLorentzVector Meson, Pion, Kaon;
+    Meson.SetPxPyPzE(P_B,0,0,sqrt(M_B*M_B + P_B*P_B));
+    Pion.SetPxPyPzE(0,0,0, M_PION);
+    Kaon.SetPxPyPzE(0,0,0, M_K);
     
-    TwoBodyDecay *event= new TwoBodyDecay(*Meson,*Pion,*Kaon);
-    
-    Meson->print();
-    Pion->print();
-    Kaon->print();
-    
-    
-    
-    event->StartDecay(*Meson,*Pion,*Kaon);
-    
-    delete Meson;
-    delete Pion;
-    delete Kaon;
-    
+    TwoBodyDecay *event= new TwoBodyDecay(Meson, Pion, Kaon);
+
+    TString rootfname("./data.root");
+    TFile* ofile = new TFile(rootfname, "RECREATE");
+
+    TRandom3* gen = new TRandom3();
+    gen->SetSeed(0);
+
+    if( !ofile->IsOpen() ) {
+        std::cout << "problems creating root file. existing... " << std::endl;
+        exit(-1);
+    }
+
+    ofile->Close();
+
+    delete event;
 
     return 0;
     
